@@ -5,6 +5,7 @@
  */
 package com.eam.controlador;
 
+import com.eam.modelo.Carga;
 import com.eam.modelo.Ruta;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,12 +15,17 @@ import org.json.simple.JSONObject;
 
 /**
  *
- * @author nick_
+ * @author gafas
  */
 public class CtlRuta {
 
-    public Double calcularTarifaTotal() {
-        return 0.0;
+    public Double calcularTarifaTotal(Ruta ruta) {
+        Double suma=0.0;
+        ArrayList<Carga> cargas = new ArrayList<>(ruta.getCargaList());
+        for (int i = 0; i < cargas.size(); i++) {
+            suma+=Double.parseDouble(cargas.get(i).getPeso()+"");
+        }
+        return suma;
     }
 
     public Boolean registrarRuta(String origen, String destino, BigDecimal capacidadTotal, String estado, Date fechaPartida) {
