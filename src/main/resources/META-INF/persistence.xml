@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="ConexionBD" transaction-type="RESOURCE_LOCAL">
+    <class>com.eam.modelo.Puertos</class>
+    <class>com.eam.modelo.Mail</class>
+    <class>com.eam.modelo.Itinerario</class>
+    <class>com.eam.modelo.Ruta</class>
+    <class>com.eam.modelo.Carga</class>
+    <class>com.eam.modelo.Viajes</class>
+    <class>com.eam.modelo.Usuario</class>
+    <class>com.eam.modelo.Cliente</class>
+    <class>com.eam.modelo.Etapa</class>
+  </persistence-unit>
+</persistence>
