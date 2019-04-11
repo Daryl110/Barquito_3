@@ -132,7 +132,7 @@ public class Etapa implements Serializable {
 
     @Override
     public String toString() {       
-        return "Etapa numero: "+numeroEtapa+" descripcion: "+descripcion;
+        return "Etapa numero: "+numeroEtapa+" descripcion: "+descripcion+"\n";
     }
     
 }

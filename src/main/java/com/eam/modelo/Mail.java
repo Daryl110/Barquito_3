@@ -77,6 +77,12 @@ public class Mail implements Serializable, Factura, Notificacion, Cronologia {
         return descripcion;
     }
 
+    public Mail(String notificacion, String descripcion, Usuario usuariocorreo) {
+        this.notificacion = notificacion;
+        this.descripcion = descripcion;
+        this.usuariocorreo = usuariocorreo;
+    }
+
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
@@ -111,20 +117,22 @@ public class Mail implements Serializable, Factura, Notificacion, Cronologia {
 
     @Override
     public String toString() {
-        return notificacion+"\n"+descripcion;
+        return notificacion + "\n" + descripcion;
     }
 
     public void generarMail(Itinerario itinerario) {
         ArrayList<Carga> listaC = new ArrayList<>(itinerario.getRutaIdruta().getCargaList());
-        this.descripcion="";
-        listaC.forEach((carga) -> {
+        
+        for (Carga carga : listaC) {
+            this.descripcion = "";
+            this.notificacion ="";
             this.descripcion += generarFactura(carga);
             this.descripcion += "\n";
             this.descripcion += generarCronologia(itinerario);
             notificacion = agregarNotificacion(Herramientas.generarCadenaAleatorio(20));
             this.usuariocorreo = carga.getClientecedula().getUsuariocorreo();
-            JSONObject joRespuesta = (Main.dao.guardar(this));
-        });
+            JSONObject joRespuesta = (Main.dao.guardar(new Mail(notificacion, descripcion, usuariocorreo)));
+        }
 
     }
 
@@ -145,12 +153,13 @@ public class Mail implements Serializable, Factura, Notificacion, Cronologia {
     public String generarCronologia(Itinerario itinerario) {
         String cronologia = " Cronologia: \n";
         //ArrayList<Etapa> listaE = new ArrayList<>(itinerario.getEtapaList());
-        ArrayList<String> campos = new ArrayList<>() , valores = new ArrayList<>();
+        ArrayList<String> campos = new ArrayList<>(), valores = new ArrayList<>();
         campos.add("itinerarioidItinerario.idItinerario");
-        valores.add(itinerario.getIdItinerario()+"");
+        valores.add(itinerario.getIdItinerario() + "");
         ArrayList<Etapa> listaE = new ArrayList<>(Main.dao.cargar("Etapa", campos, valores));
         for (Etapa etapa : listaE) {
             cronologia += etapa.toString();
+            cronologia +="\n";
         }
         return cronologia;
     }
