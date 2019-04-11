@@ -39,6 +39,7 @@ public class FrmCliente extends javax.swing.JDialog {
         controCarga = new CtlCarga();
         initComponents();
         ListarRetorno();
+        txtNotificaciones.setEditable(false);
         txtNotificaciones.setText(traerMail());
 
     }
@@ -191,6 +192,7 @@ public class FrmCliente extends javax.swing.JDialog {
             } else {
                 if (controCarga.crearCarga(new BigDecimal(tamano), new BigDecimal(peso), estado, cliente, puerto)) {
                     JOptionPane.showMessageDialog(this, "Se ha registrado con exito");
+                    limpiarCampos();
                 } else {
                     JOptionPane.showMessageDialog(this, "Hubo error al registrar");
                 }
@@ -243,13 +245,20 @@ public class FrmCliente extends javax.swing.JDialog {
         valores.add(correo);
         ArrayList<Mail> listaMail = new ArrayList(Main.dao.cargar("Mail", campos, valores));
         for (int i = 0; i < listaMail.size(); i++) {
-            int x = i+1;
-            mensaje +="Mensaje "+x;
-            mensaje +="\n";
+            int x = i + 1;
+            mensaje += "Mensaje " + x;
+            mensaje += "\n";
             mensaje += listaMail.get(i).toString();
-            mensaje +="\n";
+            mensaje += "\n";
+            mensaje += "";
+            mensaje += "\n";
         }
         return mensaje;
+    }
+
+    public void limpiarCampos() {
+        txtPeso_Cliente.setText("");
+        txtTamano_Cliente.setText("");
     }
 
 
