@@ -462,22 +462,19 @@ public final class FrmAdministrador extends javax.swing.JFrame {
 
             Carga c = controCarga.traerCarga(x);
             Ruta r = controRuta.traerruta(i);
-            Double valor =Double.parseDouble(r.getCapacidadTotal() + "");
+            Double valor = Double.parseDouble(r.getCapacidadTotal() + "");
+            Double valor1 = Double.parseDouble(c.getPeso() + "");
 
-            if (Double.parseDouble(c.getPeso() + "") <= valor) {
-                if ((controRuta.calcularTarifaTotal(r)+valor)<= valor) {
-                    controCarga.asociarRuta(c, r);
-                    listarCargaActiva("ACTIVO");
-                    listarCargaRuta(i + "");
-                } else {
-                    JOptionPane.showMessageDialog(null, "La carga sobrepasa la ruta");
-                }
-            }else{
+            if (valor1 <= (valor - controRuta.calcularTarifaTotal(r))) {
+                controCarga.asociarRuta(c, r);
+                listarCargaActiva("ACTIVO");
+                listarCargaRuta(i + "");
+            } else {
                 JOptionPane.showMessageDialog(null, "La carga sobrepasa la ruta");
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Por favor seleccione una carga y/o una ruta "+ e);
+            JOptionPane.showMessageDialog(this, "Por favor seleccione una carga y/o una ruta " + e);
         }
 
 
@@ -519,6 +516,17 @@ public final class FrmAdministrador extends javax.swing.JFrame {
                 listarRuta("ACTIVO");
                 Mail mail = new Mail();
                 mail.generarMail(itinerario);
+                tblCargasRutas.setModel(new javax.swing.table.DefaultTableModel(
+                        new Object[][]{
+                            {null, null, null, null},
+                            {null, null, null, null},
+                            {null, null, null, null},
+                            {null, null, null, null}
+                        },
+                        new String[]{
+                            "Title 1", "Title 2", "Title 3", "Title 4"
+                        }
+                ));
             } else {
                 JOptionPane.showMessageDialog(this, "El barco no ha zarpado.");
             }
