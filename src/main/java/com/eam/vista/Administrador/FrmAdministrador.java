@@ -462,11 +462,22 @@ public final class FrmAdministrador extends javax.swing.JFrame {
 
             Carga c = controCarga.traerCarga(x);
             Ruta r = controRuta.traerruta(i);
-            controCarga.asociarRuta(c, r);
-            listarCargaActiva("ACTIVO");
-            listarCargaRuta(i + "");
+            Double valor =Double.parseDouble(r.getCapacidadTotal() + "");
+
+            if (Double.parseDouble(c.getPeso() + "") <= valor) {
+                if ((controRuta.calcularTarifaTotal(r)+valor)<= valor) {
+                    controCarga.asociarRuta(c, r);
+                    listarCargaActiva("ACTIVO");
+                    listarCargaRuta(i + "");
+                } else {
+                    JOptionPane.showMessageDialog(null, "La carga sobrepasa la ruta");
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "La carga sobrepasa la ruta");
+            }
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Por favor seleccione una carga y/o una ruta");
+            JOptionPane.showMessageDialog(this, "Por favor seleccione una carga y/o una ruta "+ e);
         }
 
 
