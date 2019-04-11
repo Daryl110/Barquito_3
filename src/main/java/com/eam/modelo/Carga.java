@@ -45,7 +45,7 @@ public class Carga implements Serializable {
     @Column(name = "estado")
     private String estado;
     @JoinColumn(name = "Cliente_cedula", referencedColumnName = "cedula")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Cliente clientecedula;
     @JoinColumn(name = "Puertos_idPuertos", referencedColumnName = "idPuertos")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
@@ -143,7 +143,7 @@ public class Carga implements Serializable {
 
     @Override
     public String toString() {
-        return "com.eam.modelo.Carga[ idCarga=" + idCarga + " ]";
+        return "Carga: Peso= " + peso + " Tamaño= "+tamanio;
     }
     
 }

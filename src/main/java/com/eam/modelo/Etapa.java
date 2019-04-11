@@ -48,7 +48,7 @@ public class Etapa implements Serializable {
     @Column(name = "tarifa")
     private BigDecimal tarifa;
     @JoinColumn(name = "Itinerario_idItinerario", referencedColumnName = "idItinerario")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Itinerario itinerarioidItinerario;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "etapaidEtapa", fetch = FetchType.LAZY)
     private List<Viajes> viajesList;
@@ -131,8 +131,8 @@ public class Etapa implements Serializable {
     }
 
     @Override
-    public String toString() {
-        return "com.eam.modelo.Etapa[ idEtapa=" + idEtapa + " ]";
+    public String toString() {       
+        return "Etapa numero: "+numeroEtapa+" descripcion: "+descripcion;
     }
     
 }

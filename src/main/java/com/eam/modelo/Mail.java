@@ -5,7 +5,10 @@
  */
 package com.eam.modelo;
 
+import com.eam.controlador.Main;
+import com.eam.util.Herramientas;
 import java.io.Serializable;
+import java.util.ArrayList;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +22,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -28,7 +32,7 @@ import javax.validation.constraints.Size;
 @Table(name = "mail")
 @NamedQueries({
     @NamedQuery(name = "Mail.findAll", query = "SELECT m FROM Mail m")})
-public class Mail implements Serializable, Factura, Notificacion, Cronologia{
+public class Mail implements Serializable, Factura, Notificacion, Cronologia {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -39,7 +43,7 @@ public class Mail implements Serializable, Factura, Notificacion, Cronologia{
     @Size(max = 45)
     @Column(name = "notificacion")
     private String notificacion;
-    @Size(max = 45)
+    @Size(max = 1000)
     @Column(name = "descripcion")
     private String descripcion;
     @JoinColumn(name = "Usuario_correo", referencedColumnName = "correo")
@@ -107,25 +111,47 @@ public class Mail implements Serializable, Factura, Notificacion, Cronologia{
 
     @Override
     public String toString() {
-        return "com.eam.modelo.Mail[ idMail=" + idMail + " ]";
+        return notificacion+"\n"+descripcion;
     }
-    
-    public void generarMail(){
-        
+
+    public void generarMail(Itinerario itinerario) {
+        ArrayList<Carga> listaC = new ArrayList<>(itinerario.getRutaIdruta().getCargaList());
+        this.descripcion="";
+        listaC.forEach((carga) -> {
+            this.descripcion += generarFactura(carga);
+            this.descripcion += "\n";
+            this.descripcion += generarCronologia(itinerario);
+            notificacion = agregarNotificacion(Herramientas.generarCadenaAleatorio(20));
+            this.usuariocorreo = carga.getClientecedula().getUsuariocorreo();
+            JSONObject joRespuesta = (Main.dao.guardar(this));
+        });
+
     }
 
     @Override
-    public String generarFactura(Cliente cliente) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String generarFactura(Carga c) {
+        String factura = "";
+        factura += c.toString();
+        factura += "\n Valor:" + Herramientas.generarNumeroAleatorio(200) + "000";
+        return factura;
     }
 
     @Override
     public String agregarNotificacion(String Descripcion) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "Notificacion:" + Descripcion;
     }
 
     @Override
     public String generarCronologia(Itinerario itinerario) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String cronologia = " Cronologia: \n";
+        //ArrayList<Etapa> listaE = new ArrayList<>(itinerario.getEtapaList());
+        ArrayList<String> campos = new ArrayList<>() , valores = new ArrayList<>();
+        campos.add("itinerarioidItinerario.idItinerario");
+        valores.add(itinerario.getIdItinerario()+"");
+        ArrayList<Etapa> listaE = new ArrayList<>(Main.dao.cargar("Etapa", campos, valores));
+        for (Etapa etapa : listaE) {
+            cronologia += etapa.toString();
+        }
+        return cronologia;
     }
 }

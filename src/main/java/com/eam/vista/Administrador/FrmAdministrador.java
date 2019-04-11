@@ -5,6 +5,7 @@ import com.eam.controlador.CtlRuta;
 import com.eam.controlador.Main;
 import com.eam.modelo.Carga;
 import com.eam.modelo.Itinerario;
+import com.eam.modelo.Mail;
 import com.eam.modelo.Report_EstadoCarga;
 import com.eam.modelo.Report_FacturacionDiaria;
 import com.eam.modelo.Reporte;
@@ -491,6 +492,7 @@ public final class FrmAdministrador extends javax.swing.JFrame {
 
             listarCargaActiva("ACTIVO");
             listarCargaRuta(x + "");
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Por favor seleccione una carga y/o una ruta");
         }
@@ -501,13 +503,15 @@ public final class FrmAdministrador extends javax.swing.JFrame {
         if (i >= 0) {
             i = Integer.parseInt(tblRutasActivas.getValueAt(i, 0) + "");
             Itinerario itinerario = new Itinerario();
-            if(itinerario.generarItinerario(controRuta.traerruta(i))){
+            if (itinerario.generarItinerario(controRuta.traerruta(i))) {
                 JOptionPane.showMessageDialog(this, "Las cargas de esta ruta han zarpado.");
                 listarRuta("ACTIVO");
-            }else{
+                Mail mail = new Mail();
+                mail.generarMail(itinerario);
+            } else {
                 JOptionPane.showMessageDialog(this, "El barco no ha zarpado.");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Por favor seleccione una ruta de la tabla.");
         }
     }//GEN-LAST:event_btnGenerarItinerario_RutaActionPerformed

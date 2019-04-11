@@ -9,6 +9,7 @@ import com.eam.controlador.CtlCarga;
 import com.eam.controlador.CtlPuerto;
 import com.eam.controlador.Main;
 import com.eam.modelo.Cliente;
+import com.eam.modelo.Mail;
 import com.eam.modelo.Puertos;
 import com.eam.vista.FrmPrincipal;
 import java.awt.event.KeyEvent;
@@ -38,6 +39,8 @@ public class FrmCliente extends javax.swing.JDialog {
         controCarga = new CtlCarga();
         initComponents();
         ListarRetorno();
+        txtNotificaciones.setText(traerMail());
+
     }
 
     public void ListarRetorno() {
@@ -60,11 +63,11 @@ public class FrmCliente extends javax.swing.JDialog {
         txtPeso_Cliente = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         cbPuertoDescarga = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jlistNotificacion_Cliente = new javax.swing.JList<>();
         btnEnviarSolicitud_Cliente = new javax.swing.JButton();
         Notificaciones = new javax.swing.JLabel();
         btnCerrarSession_Cliente = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtNotificaciones = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -90,8 +93,6 @@ public class FrmCliente extends javax.swing.JDialog {
 
         jLabel4.setText("Puerto descarga:");
 
-        jScrollPane1.setViewportView(jlistNotificacion_Cliente);
-
         btnEnviarSolicitud_Cliente.setText("Enviar Solicitud");
         btnEnviarSolicitud_Cliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -110,87 +111,94 @@ public class FrmCliente extends javax.swing.JDialog {
             }
         });
 
+        txtNotificaciones.setColumns(20);
+        txtNotificaciones.setRows(5);
+        jScrollPane2.setViewportView(txtNotificaciones);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(txtTamano_Cliente))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbPuertoDescarga, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtPeso_Cliente, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)))
-                    .addComponent(jScrollPane1)
-                    .addComponent(Notificaciones, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnEnviarSolicitud_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(cbPuertoDescarga, 0, 179, Short.MAX_VALUE)
+                                .addComponent(txtPeso_Cliente))
+                            .addComponent(btnCerrarSession_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(Notificaciones)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(77, 77, 77)
-                .addComponent(btnEnviarSolicitud_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
-                .addComponent(btnCerrarSession_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtTamano_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtPeso_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1)
+                    .addComponent(Notificaciones))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(cbPuertoDescarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addComponent(Notificaciones)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEnviarSolicitud_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCerrarSession_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtTamano_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtPeso_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(cbPuertoDescarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEnviarSolicitud_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCerrarSession_Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 114, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEnviarSolicitud_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarSolicitud_ClienteActionPerformed
-        try{
-           String tamano = txtTamano_Cliente.getText();
-        String peso = txtPeso_Cliente.getText();
-        String estado = "ACTIVO";
-        Puertos puerto = ctlpuerto.traerPuerto(Integer.parseInt((cbPuertoDescarga.getSelectedItem() + "").split(" - ")[0]));
-        Cliente cliente = traerCliente();
-        if(tamano.isEmpty() || peso.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Debe ingresar todos los campos");
-        }else{
-           if(controCarga.crearCarga(new BigDecimal(tamano),new BigDecimal(peso), estado, cliente, puerto)){
-         JOptionPane.showMessageDialog(this,"Se ha registrado con exito");
-            }else{
-            JOptionPane.showMessageDialog(this, "Hubo error al registrar");
-             } 
-            }  
-        }catch(Exception e){
+        try {
+            String tamano = txtTamano_Cliente.getText();
+            String peso = txtPeso_Cliente.getText();
+            String estado = "ACTIVO";
+            Puertos puerto = ctlpuerto.traerPuerto(Integer.parseInt((cbPuertoDescarga.getSelectedItem() + "").split(" - ")[0]));
+            Cliente cliente = traerCliente();
+            if (tamano.isEmpty() || peso.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Debe ingresar todos los campos");
+            } else {
+                if (controCarga.crearCarga(new BigDecimal(tamano), new BigDecimal(peso), estado, cliente, puerto)) {
+                    JOptionPane.showMessageDialog(this, "Se ha registrado con exito");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Hubo error al registrar");
+                }
+            }
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Datos erroneos");
         }
-         
+
     }//GEN-LAST:event_btnEnviarSolicitud_ClienteActionPerformed
 
     private void btnCerrarSession_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSession_ClienteActionPerformed
@@ -211,7 +219,7 @@ public class FrmCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_txtTamano_ClienteKeyTyped
 
     private void txtPeso_ClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPeso_ClienteKeyTyped
-       char c = evt.getKeyChar();
+        char c = evt.getKeyChar();
         if (!(Character.isDigit(c)
                 || (c == KeyEvent.VK_BACK_SPACE)
                 || (c == KeyEvent.VK_DELETE))) {
@@ -228,6 +236,22 @@ public class FrmCliente extends javax.swing.JDialog {
         return cliente.get(0);
     }
 
+    public String traerMail() {
+        String mensaje = "";
+        ArrayList<String> campos = new ArrayList<>(), valores = new ArrayList<>();
+        campos.add("usuariocorreo.correo");
+        valores.add(correo);
+        ArrayList<Mail> listaMail = new ArrayList(Main.dao.cargar("Mail", campos, valores));
+        for (int i = 0; i < listaMail.size(); i++) {
+            int x = i+1;
+            mensaje +="Mensaje "+x;
+            mensaje +="\n";
+            mensaje += listaMail.get(i).toString();
+            mensaje +="\n";
+        }
+        return mensaje;
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Notificaciones;
@@ -238,8 +262,8 @@ public class FrmCliente extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList<String> jlistNotificacion_Cliente;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea txtNotificaciones;
     private javax.swing.JTextField txtPeso_Cliente;
     private javax.swing.JTextField txtTamano_Cliente;
     // End of variables declaration//GEN-END:variables

@@ -11,5 +11,5 @@ package com.eam.modelo;
  */
 public interface Factura {
     
-    public abstract String generarFactura(Cliente cliente);
+    public abstract String generarFactura(Carga c);
 }

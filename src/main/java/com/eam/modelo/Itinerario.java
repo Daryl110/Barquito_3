@@ -53,7 +53,7 @@ public class Itinerario implements Serializable {
     private String clima;
     @Column(name = "tiempo")
     private BigDecimal tiempo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "itinerarioidItinerario", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "itinerarioidItinerario", fetch = FetchType.EAGER)
     private List<Etapa> etapaList;
     @JoinColumn(name = "ruta_idruta", referencedColumnName = "idruta")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
